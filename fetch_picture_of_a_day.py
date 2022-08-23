@@ -44,4 +44,4 @@ if __name__ == '__main__':
     params = {'api_key': nasa_api_key,
               'count': count
               }
-     get_APOD(URL, params, FOLDER_TO_DOWNLOAD)
+    get_APOD(URL, params, FOLDER_TO_DOWNLOAD)
