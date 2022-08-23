@@ -2,18 +2,18 @@ import os
 
 if __name__ == '__main__':
     
-    print('Введите API для сайта NASA',end='\t')
-    API_KEY = input()
-    if API_KEY and API_KEY not in(' ',''):
-        file = open('.env', 'w+')
-        file.write(f'API_KEY = {API_KEY}\n')
-        file.close()
-        
+    print('Введите API для сайта NASA', end='\t')
+    nasa_api_key = input().strip()
+            
     print('Введите свой токен для ТГ', end='\t')
-    TOKEN = input()
-    if TOKEN and TOKEN not in(' ',''):
-        file = open('.env', 'a')
-        file.write(f'TELEGRAM_BOT_TOKEN = {TOKEN}')
-        file.close()
-    
+    token = input().strip()
 
+    print('Введите чат id', end='\t')
+    chat_id=input().strip()
+
+    with open('.env', 'w+') as env_file:
+        env_file.write(f'NASA_API_KEY={nasa_api_key}\n')
+        env_file.write(f'TELEGRAM_BOT_TOKEN={token}\n')
+        env_file.write(f'TELEGRAM_CHAT_ID={chat_id}\n')
+        env_file.write(f'DELAY_HOURS=4\n')
+        env_file.close()
