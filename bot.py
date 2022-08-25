@@ -8,9 +8,7 @@ from dotenv import load_dotenv
 from functions import get_image
 from pathlib import Path
 from retry import retry
-from telegram import error
 
-TEXT = 'Hello, I\'m the coolest bot ever!'
 
 @retry(telegram.error.NetworkError, tries=100, delay=2) 
 def send_message(text, chat_id):
@@ -34,12 +32,16 @@ def send_random_image(img_data):
         raise    
 
 
+TEXT = 'Hello, I\'m the coolest bot ever!'
+DELAY_HOURS = 4
+
+
 if __name__ == '__main__':
     load_dotenv()
     token = os.environ['TELEGRAM_BOT_TOKEN']
     chat_id = os.environ['TELEGRAM_CHAT_ID']
     file_to_send = os.environ.get('FILE_TO_SEND', None)
-    delay = os.environ['DELAY_HOURS']
+    delay = os.environ.get('DELAY_HOURS', DELAY_HOURS)
     
     directories = [Path.cwd().joinpath("images"),
                    Path.cwd().joinpath("EPIC"),
