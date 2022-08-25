@@ -5,7 +5,7 @@ from datetime import date, datetime, timedelta
 from functions import download_img
 from functions import parse_date
 from pathlib import Path
-from urllib.parse import unquote, urlencode, urlparse
+from urllib.parse import urlencode
 
 URL = 'https://api.spacexdata.com/v5/launches'
 
