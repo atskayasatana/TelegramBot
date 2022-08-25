@@ -96,9 +96,7 @@ python fetch_epic_images.py [количество картинок для ска
 Загружает картинку c адресом path в объект для дальнейшей работы.
 
 
- ## space_x_functions.py
-
-Функции для скачивания запусков SpaceX
+### Функции для скачивания фото
 
 ### get_foto_of_launch_by_id(url, launch_id)
 
@@ -119,6 +117,11 @@ python fetch_epic_images.py [количество картинок для ска
 ### get_EPIC(params,download_dir_name, number_of_images)
 
 Скачивает указанное в number_of_images число изображений с epic камеры в папку download_dir_name. Функция собирает нужное количество изображений начиная от текущей даты по каждому дню.
+
+### get_json(url, params, date)
+
+Возвращает результат запроса и количество ссылок на картинки для скачивания.
+
 
 ## bot.py
 
