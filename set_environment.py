@@ -15,5 +15,3 @@ if __name__ == '__main__':
         env_file.write(f'NASA_API_KEY={nasa_api_key}\n')
         env_file.write(f'TELEGRAM_BOT_TOKEN={token}\n')
         env_file.write(f'TELEGRAM_CHAT_ID={chat_id}\n')
-        env_file.write(f'DELAY_HOURS=4\n')
-        env_file.close()
