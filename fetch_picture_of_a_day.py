@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from functions import download_img
 from functions import get_file_extension
 from pathlib import Path
-from urllib.parse import unquote, urlencode, urlparse
+from urllib.parse import urlencode
 
 
 URL = 'https://api.nasa.gov/planetary/apod'
@@ -22,7 +22,7 @@ def get_APOD(url, query, download_dir_name):
     response = requests.get(url, params=params)
     response.raise_for_status()
     for item, elem in enumerate(response.json()):
-        if elem['media_type']=='image':
+        if elem['media_type'] == 'image':
             img_url = elem['url']
             file_name = f'nasa_apod_{str(item)}{get_file_extension(img_url)}'
             download_path = img_download_dir.joinpath(file_name)
