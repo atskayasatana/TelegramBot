@@ -6,9 +6,10 @@ import sys
 from datetime import date, datetime, timedelta
 from dotenv import load_dotenv
 from functions import download_img
+from functions import get_json
 from functions import parse_date
 from pathlib import Path
-from urllib.parse import urlparse, unquote, urlencode
+from urllib.parse import urlencode
 
 FOLDER_TO_DOWNLOAD = "EPIC"
 
@@ -17,19 +18,17 @@ def get_EPIC(params, download_dir_name, number_of_images):
     ttl_imgs = 0
     img_links = []
     res = []
+    url = (f'https://api.nasa.gov/EPIC/api/natural/date')
     path = Path.cwd()
     img_download_dir = path.joinpath(download_dir_name)
     Path.mkdir(img_download_dir, exist_ok=True)
     today = date.today()
     year, month, day = parse_date(today)
     cur_date = today
-    while ttl_imgs<number_of_images:
-        url = (f'https://api.nasa.gov/EPIC/api/'
-               f'natural/date/{year}-{month}-{day}')
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        ttl_imgs += len(response.json())
-        res.append(response.json())
+    while ttl_imgs < number_of_images:
+        nasa_json, img_cnt = get_json(url, params, cur_date)
+        ttl_imgs += img_cnt
+        res.append(nasa_json)
         new_date = cur_date-timedelta(days=1)
         year, month, day = parse_date(new_date)
         cur_date = new_date        
@@ -43,12 +42,11 @@ def get_EPIC(params, download_dir_name, number_of_images):
         year, month, day = parse_date(dt)
         url = (f'https://api.nasa.gov/EPIC/archive/natural/'
                f'{year}/{month}/{day}/png/{img_name}.png')
-        img_url = f'{url}?{user_params}'
+        
         download_path = img_download_dir.joinpath(f'{img_name}.png')
-        download_img(img_url, download_path)
+        download_img(url, download_path, user_params)
 
         
-
 if __name__ == '__main__':
     load_dotenv()
     nasa_api_key = os.environ['NASA_API_KEY']
