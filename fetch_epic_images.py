@@ -6,12 +6,18 @@ import sys
 from datetime import date, datetime, timedelta
 from dotenv import load_dotenv
 from functions import download_img
-from functions import get_json
 from functions import parse_date
 from pathlib import Path
 from urllib.parse import urlencode
 
 FOLDER_TO_DOWNLOAD = "EPIC"
+
+def get_json(url, params, date):
+        year, month, day = parse_date(date)
+        url_w_date=f'{url}/{year}-{month}-{day}'
+        response = requests.get(url_w_date, params=params)
+        response.raise_for_status()
+        return response.json(), len(response.json())
 
 
 def get_EPIC(params, download_dir_name, number_of_images):
