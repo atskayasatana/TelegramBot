@@ -15,7 +15,6 @@ def send_message(text, chat_id):
     try:
         bot.send_message(text=text, chat_id=chat_id)
         bot.send_photo(chat_id=chat_id, photo=img_data)
-        return
     except telegram.error.NetworkError:
         print('Ошибка подключения!')
         print('Попытка соединения...')
