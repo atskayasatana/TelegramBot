@@ -55,7 +55,7 @@ if __name__ == '__main__':
         try:
             img_data = get_image(file_to_send)
         except FileNotFoundError:
-            print('Указаный файл не найден. Будет отправлено случайное фото')
+            print('Указанный файл не найден. Будет отправлено случайное фото')
             img_data = get_image(random_image)         
     else:
         img_data = get_image(random_image)
