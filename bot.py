@@ -21,6 +21,7 @@ def send_message(text, chat_id):
         print('Попытка соединения...')
         raise
 
+        
 @retry(telegram.error.NetworkError, tries=100, delay=5)
 def send_random_image(img_data):
     try:
