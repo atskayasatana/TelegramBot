@@ -12,36 +12,39 @@ from urllib.parse import urlencode
 
 FOLDER_TO_DOWNLOAD = "EPIC"
 
-def get_json(url, params, date):
+
+def get_available_for_date_epic(params, date):
+        url = (f'https://api.nasa.gov/EPIC/api/natural/date')
         year, month, day = parse_date(date)
-        url_w_date=f'{url}/{year}-{month}-{day}'
+        url_w_date = f'{url}/{year}-{month}-{day}'
         response = requests.get(url_w_date, params=params)
         response.raise_for_status()
-        return response.json(), len(response.json())
+        epic_json = response.json()
+        return epic_json
 
 
 def get_EPIC(params, download_dir_name, number_of_images):
     ttl_imgs = 0
     img_links = []
     res = []
-    url = (f'https://api.nasa.gov/EPIC/api/natural/date')
+    
     path = Path.cwd()
+    cur_date = date.today()
+    user_params = urlencode(params)
+    
     img_download_dir = path.joinpath(download_dir_name)
     Path.mkdir(img_download_dir, exist_ok=True)
-    today = date.today()
-    year, month, day = parse_date(today)
-    cur_date = today
+    
     while ttl_imgs < number_of_images:
-        nasa_json, img_cnt = get_json(url, params, cur_date)
-        ttl_imgs += img_cnt
+        nasa_json = get_available_for_date_epic(params, cur_date)
+        ttl_imgs += len(nasa_json)
         res.append(nasa_json)
-        new_date = cur_date-timedelta(days=1)
-        year, month, day = parse_date(new_date)
-        cur_date = new_date        
+        cur_date = cur_date-timedelta(days=1)
+        
     for elem in res:
         for data in elem:
-            img_links.append((data['date'], data['image']))
-    user_params = urlencode(params)
+            img_links.append((data['date'], data['image']))        
+    
     for link in img_links:
         img_date, img_name = link
         dt = datetime.fromisoformat(img_date)
