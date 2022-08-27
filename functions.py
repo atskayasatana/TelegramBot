@@ -36,11 +36,3 @@ def get_image(path):
         print('Файл не найден!')
         raise
     return img_data
-
-
-def get_json(url, params, date):
-        year, month, day = parse_date(date)
-        url_w_date=f'{url}/{year}-{month}-{day}'
-        response = requests.get(url_w_date, params=params)
-        response.raise_for_status()
-        return response.json(), len(response.json())
